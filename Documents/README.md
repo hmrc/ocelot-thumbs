@@ -1,0 +1,1 @@
+# Documentation for the Ocelot CMS Thumbs Subsystem
