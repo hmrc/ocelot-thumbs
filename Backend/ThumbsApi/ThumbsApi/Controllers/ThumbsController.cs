@@ -9,7 +9,7 @@ using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ThumbsController : ControllerBase
     {
@@ -22,13 +22,14 @@ namespace ThumbsApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _thumbsRepository.GetManyAsync();
-            return Ok(result);
+        //not wanted as will output the entire database
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var result = await _thumbsRepository.GetManyAsync();
+        //    return Ok(result);
 
-        }
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
@@ -42,28 +43,20 @@ namespace ThumbsApi.Controllers
             return Ok(item);
         }
 
-        //todo
-        //[HttpGet] 
-        //public async Task<ActionResult>GetByDate(DateTime startDate, DateTime enddate)
-        //{
-        //    var result = await _thumbsRepository.
-        //    return Ok();
-        //}
-
-        //todo
-        //Get/Thumb/Owner/{Product}????
-
-
-
         [HttpPost]
         public async Task Add([FromBody]Thumb item)
         {
             _thumbsRepository.Add(item);
 
-            //todo check if saved correctly
             var saveResult = await _thumbsRepository.SaveAsync();
 
-            RedirectToAction("GetAll");
+            //todo check saved and return result
+            if (saveResult)
+            {
+            }
+            else
+            {
+            }
         }
 
         [HttpPut("{id}")]
