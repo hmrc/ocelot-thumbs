@@ -14,7 +14,7 @@ namespace ThumbsApi.Models
         public Guid Id { get; set; }
 
         [MaxLength(7)]
-        public string Pid { get; set; }  //pid
+        public string Pid { get; set; }  
 
         public DateTime Date { get; set; } = DateTime.Now;
 
@@ -23,8 +23,8 @@ namespace ThumbsApi.Models
         public string Product { get; set; }  
 
         [MaxLength(255)]
-        public string Group { get; set; }  //process
+        public string Group { get; set; }  
 
-        public string EndPoint { get; set; }  //last15 or endpoint
+        public string EndPoint { get; set; }  
     }
 }
