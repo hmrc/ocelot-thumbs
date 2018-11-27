@@ -15,7 +15,7 @@ namespace ThumbsApi.Models
 
         [MinLength(7)]
         [MaxLength(7)]
-        public string Pid { get; set; }  //pid
+        public string Pid { get; set; }  
 
         [Required]
         public DateTime Date { get; set; } = DateTime.Now;
