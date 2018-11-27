@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Client to post data</title>
+    <style>
+        table {
+            font-family: Arial, sans-serif;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #0066CC;
+            color: white;
+        }
+
+        td {
+            border: 1px solid;
+            padding: 5px;
+        }
+
+        .btn {
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <div>
+        <form action="javascript:void(0);" id="theform" method="POST" onsubmit="addItem();">
+            <input type=submit id="rating" class="Submit" value="True">
+            <input type=submit id="rating" class="Submit" value="False">
+            <input type="date" id="demo">
+            <input type="text" id="type" value="type"><br>
+            <input type="text" id="process" value="process">
+            <input type="text" id="who" value="00000">
+            <input type="text" id="last15" value="last15">
+        </form>
+    </div>
+    <p id="demoo"></p>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Ratings</th>
+            <th>Type</th>
+            <th>Process</th>
+            <th>Who</th>
+            <th>Date</th>
+            <th>Last15</th>
+        </tr>
+        <tbody id="todos"></tbody>
+    </table>
+
+    <script type="text/javascript">
+        uri = "api/thumbs";
+        let todos = null;
+        $(document).ready(function () {
+            getData();
+
+        });
+
+        function getData() {
+            $.ajax({
+                type: 'Get',
+                dataType: 'json',
+                url: uri,
+                success: function (data) {
+                   $('#todos').empty();
+                    $.each(data, function (key, item) {
+                        $('<tr>' +
+                            '<td>' + item.id + '</td>' +
+                            '<td>' + item.rating + '</td>' +
+                            '<td>' + item.type + '</td>' +
+                            '<td>' + item.process + '</td>' +
+                            '<td>' + item.who + '</td>' +
+                            '<td>' + item.date + '</td>' +
+                            '<td>' + item.last15 + '</td>' +
+                            '</tr>').appendTo($('#todos'));
+                    });
+                    todos = data;
+                }
+            });
+        }
+
+
+       // var d = new Date(2018,11,24);
+       // document.getElementById("showdate").innerHTML = d;
+
+        var d = new Date();
+        document.getElementById("demo").valueAsDate = d;
+
+        function addItem() {
+            const itemPost = {
+                //  'Rating': $('#UpId').val(),
+                'Rating': document.activeElement.getAttribute('value'),
+                'Type': $('#type').val(),
+                'Process': $('#process').val(),
+                'Who': $('#who').val(),
+                'Date': $('#demo').val(),
+                'Last15': $('#last15').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                accepts: 'application/json',
+                url: uri,
+                contentType: 'application/json',
+                data: JSON.stringify(itemPost),
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('fail');
+                },
+                success: function (result) {
+                    getData();
+                        $('#type').val(''),
+                        $('#process').val(''),
+                        $('#who').val(''),
+                        $('#date').val(''),
+                        $('#last15').val('');
+                }
+            });
+        }
+
+        $(function () {
+            $('#theform').submit(function () {
+                $("input[type='submit']", this)
+                    .val("You clicked " + document.activeElement.getAttribute('value'))
+                    .attr('disabled', 'disabled')
+               // .hide();
+                return true;
+            });
+        });
+
+    </script>
+</body>
+</html>
