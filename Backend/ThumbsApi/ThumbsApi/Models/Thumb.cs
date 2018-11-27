@@ -13,18 +13,26 @@ namespace ThumbsApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [MinLength(7)]
         [MaxLength(7)]
-        public string Pid { get; set; }  //pid
+        public string Pid { get; set; }  
 
+        [Required]
         public DateTime Date { get; set; } = DateTime.Now;
 
+        [Required]
         public bool Rating { get; set; }        
 
+        [Required]
+        [MaxLength(10)]
         public string Product { get; set; }  
 
-        [MaxLength(255)]
+        [Required]
+        [MaxLength(100)]
         public string Group { get; set; }  //process
 
-        public string EndPoint { get; set; }  //last15 or endpoint
+        [Required]
+        [MaxLength(255)]
+        public string EndPoint { get; set; }  //endpoint
     }
 }
