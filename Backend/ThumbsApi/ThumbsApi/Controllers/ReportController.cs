@@ -26,6 +26,8 @@ namespace ThumbsApi.Controllers
         public async Task<IActionResult> Get(string product, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
             
+            //todo check auth
+
             var report = await _reportRepository.GetAsync(startDate, endDate, product);
 
             //todo get grouping from api and loop through all children;

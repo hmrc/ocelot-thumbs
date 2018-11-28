@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
@@ -34,6 +32,13 @@ namespace ThumbsApi
 
             services.AddScoped<IThumbsRepository, ThumbsRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = true;
+                options.AutomaticAuthentication = true;
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info

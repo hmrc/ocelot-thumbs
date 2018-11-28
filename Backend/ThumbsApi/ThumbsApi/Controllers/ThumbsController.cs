@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using ThumbsApi.Models;
 using ThumbsApi.Services.Interfaces;
@@ -33,6 +34,11 @@ namespace ThumbsApi.Controllers
         {
             try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
                 var item = await _thumbsRepository.GetAsync(t => t.Id == id);
 
                 if (item == null)
@@ -53,6 +59,13 @@ namespace ThumbsApi.Controllers
         {
             try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
+                item.Pid = ((WindowsIdentity)User.Identity).Name;
+
                 _thumbsRepository.Add(item);
 
                 var saveResult = await _thumbsRepository.SaveAsync();
@@ -72,6 +85,11 @@ namespace ThumbsApi.Controllers
         {
             try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
                 var result = await _thumbsRepository.GetAsync(t => t.Id == id);
 
                 if (result == null)
@@ -103,6 +121,11 @@ namespace ThumbsApi.Controllers
         {
             try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
                 var result = await _thumbsRepository.GetAsync(t => t.Id == id);
 
                 if (result == null)

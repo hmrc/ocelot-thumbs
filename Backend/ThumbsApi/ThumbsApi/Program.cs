@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.IO;
 
 namespace ThumbsApi
 {
@@ -35,6 +36,8 @@ namespace ThumbsApi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .ConfigureLogging(configuration =>
                 {
