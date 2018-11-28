@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace ThumbsApi.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
+        private ILogger<ReportController> _logger;
         private IReportRepository _reportRepository;
 
-        public ReportController(IReportRepository reportRepository)
+        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
         {
+            _logger = logger;
             _reportRepository = reportRepository;
         }
 
@@ -32,6 +35,8 @@ namespace ThumbsApi.Controllers
             //}
 
             return Ok(report);
+
+            //todo logging
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using ThumbsApi.Models;
 using ThumbsApi.Services.Interfaces;
 
@@ -26,80 +24,105 @@ namespace ThumbsApi.Controllers
         //[HttpGet]
         //public async Task<IActionResult> GetAll()
         //{
-        //    var result = await _thumbsRepository.GetManyAsync();
-        //    return Ok(result);
-
+        //    //var result = await _thumbsRepository.GetManyAsync();
+        //    //return Ok(result);
         //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var item = await _thumbsRepository.GetAsync(t => t.Id == id);
-
-            if (item == null)
+            try
             {
-                return NotFound(id);
+                var item = await _thumbsRepository.GetAsync(t => t.Id == id);
+
+                if (item == null)
+                {
+                    return NotFound(id);
+                }
+                return Ok(item);
             }
-            return Ok(item);
+            catch (Exception ex)
+            {
+                _logger.LogCritical(500, ex, ex.Message);
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
-        public async Task Add([FromBody]Thumb item)
+        public async Task<IActionResult> Add([FromBody]Thumb item)
         {
-            _thumbsRepository.Add(item);
-
-            var saveResult = await _thumbsRepository.SaveAsync();
-
-            //todo check saved and return result
-            if (saveResult)
+            try
             {
+                _thumbsRepository.Add(item);
+
+                var saveResult = await _thumbsRepository.SaveAsync();
+
+                //todo check saved
+                return CreatedAtRoute(nameof(GetById), new { id = item.Id }, item);
             }
-            else
+            catch (Exception ex)
             {
+                _logger.LogCritical(500, ex, ex.Message);
+                return StatusCode(500);
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody]Thumb item)
         {
-            var result = await _thumbsRepository.GetAsync(t => t.Id == id);
-
-            if (result == null)
+            try
             {
-                return NotFound(id);
+                var result = await _thumbsRepository.GetAsync(t => t.Id == id);
+
+                if (result == null)
+                {
+                    return NotFound(id);
+                }
+
+                result.Rating = item.Rating;
+                result.Pid = item.Pid;
+                result.Group = item.Group;
+
+                _thumbsRepository.Update(result);
+
+                if (await _thumbsRepository.SaveAsync())
+                {
+                    return NoContent();
+                }
+                return StatusCode(500);
             }
-
-            result.Rating = item.Rating;
-            result.Pid = item.Pid;
-            result.Group = item.Group;
-
-            _thumbsRepository.Update(result);
-
-            if (await _thumbsRepository.SaveAsync())
+            catch (Exception ex)
             {
-                return NoContent();
+                _logger.LogCritical(500, ex, ex.Message);
+                return StatusCode(500);
             }
-            //todo output message;
-            return new StatusCodeResult(500);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-
-            var result = await _thumbsRepository.GetAsync(t => t.Id == id);
-
-            if (result == null)
+            try
             {
-                return NotFound(id);
+                var result = await _thumbsRepository.GetAsync(t => t.Id == id);
+
+                if (result == null)
+                {
+                    return NotFound(id);
+                }
+
+                _thumbsRepository.Delete(result);
+
+                //todo check if saved correctly
+                var saveResult = await _thumbsRepository.SaveAsync();
+
+                return NoContent();
             }
+            catch (Exception ex)
+            {
 
-            _thumbsRepository.Delete(result);
-
-            //todo check if saved correctly
-            var saveResult = await _thumbsRepository.SaveAsync();
-
-            return NoContent();
+                _logger.LogCritical(500, ex, ex.Message);
+                return StatusCode(500);
+            }
         }
     }
 }
