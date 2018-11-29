@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace ThumbsApi.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
+        private ILogger<ReportController> _logger;
         private IReportRepository _reportRepository;
 
-        public ReportController(IReportRepository reportRepository)
+        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
         {
+            _logger = logger;
             _reportRepository = reportRepository;
         }
 
@@ -23,6 +26,8 @@ namespace ThumbsApi.Controllers
         public async Task<IActionResult> Get(string product, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
             
+            //todo check auth
+
             var report = await _reportRepository.GetAsync(startDate, endDate, product);
 
             //todo get grouping from api and loop through all children;
@@ -32,6 +37,8 @@ namespace ThumbsApi.Controllers
             //}
 
             return Ok(report);
+
+            //todo logging
         }
     }
 }
