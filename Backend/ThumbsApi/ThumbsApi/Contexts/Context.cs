@@ -11,7 +11,12 @@ namespace ThumbsApi.Contexts
     {
         public Context(DbContextOptions<Context> options)
             : base(options)
-        { }
+        {
+            if (!Database.EnsureCreated())
+            {
+                Database.Migrate();
+            }
+        }
 
         public DbSet<Thumb> Thumbs { get; set; }
     }
