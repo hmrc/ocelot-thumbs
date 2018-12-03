@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ThumbsApi</name>
+    </assembly>
+    <members>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.Add(ThumbsApi.Models.Thumb)">
+            <summary>
+            Adds a thumb to memory 
+            </summary>
+            <param name="thumb"></param>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.Delete(ThumbsApi.Models.Thumb)">
+            <summary>
+            Removes a thumb from memory
+            </summary>
+            <param name="thumb"></param>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.GetAsync(System.Linq.Expressions.Expression{System.Func{ThumbsApi.Models.Thumb,System.Boolean}})">
+            <summary>
+            Gets a thumbs that meets the where criteria
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.GetManyAsync">
+            <summary>
+            Gets all thumbs
+            </summary>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.GetManyAsync(System.Linq.Expressions.Expression{System.Func{ThumbsApi.Models.Thumb,System.Boolean}})">
+            <summary>
+            Gets all thumbs that meet the where criteria
+            </summary>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.GetManyAsync``1(System.Linq.Expressions.Expression{System.Func{ThumbsApi.Models.Thumb,System.Boolean}},System.Linq.Expressions.Expression{System.Func{ThumbsApi.Models.Thumb,``0}},System.Int32)">
+            <summary>
+            Gets a number thumbs that meet the where criteria ordered by ordered
+            </summary>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.SaveAsync">
+            <summary>
+            Save all changes in memory
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ThumbsApi.Services.Interfaces.IThumbsRepository.Update(ThumbsApi.Models.Thumb)">
+            <summary>
+            Update a thumb in memory
+            </summary>
+            <param name="thumb"></param>
+        </member>
+    </members>
+</doc>

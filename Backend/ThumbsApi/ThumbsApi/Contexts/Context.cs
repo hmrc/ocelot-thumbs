@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace ThumbsApi.Contexts
 {
     public class Context:DbContext
     {
-        public Context(DbContextOptions<Context> options)
+        private ILogger<Context> _logger;
+
+        public Context(DbContextOptions<Context> options, ILogger<Context> logger)
             : base(options)
         {
-            if (!Database.EnsureCreated())
-            {
-                Database.Migrate();
-            }
+            _logger = logger;
+            Database.EnsureCreated();
         }
 
         public DbSet<Thumb> Thumbs { get; set; }
