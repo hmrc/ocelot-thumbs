@@ -21,15 +21,15 @@ namespace ThumbsApi.Controllers
             _logger = logger;
         }
 
-        //not wanted as will output the entire database
+        // not wanted as will output the entire database
         //[HttpGet]
         //public async Task<IActionResult> GetAll()
-        //{
-        //    //var result = await _thumbsRepository.GetManyAsync();
-        //    //return Ok(result);
+        //{            
+        //    var result = await _thumbsRepository.GetManyAsync();           
+        //    return Ok(result);
         //}
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name=nameof(GetById))]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
@@ -64,7 +64,7 @@ namespace ThumbsApi.Controllers
                     return Unauthorized();
                 }
 
-                item.Pid = ((WindowsIdentity)User.Identity).Name;
+                item.Pid = User.Identity.Name.Substring(User.Identity.Name.IndexOf(@"\") + 1); ;
 
                 _thumbsRepository.Add(item);
 
