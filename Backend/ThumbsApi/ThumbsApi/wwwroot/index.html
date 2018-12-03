@@ -35,18 +35,17 @@
             <input type="date" id="demo">
             <input type="text" id="product" value="product"><br>
             <input type="text" id="group" value="group">
-            <!--  <input type="text" id="pid" value="00000"> -->
-                <input type="text" id="endPoint" value="endpoint">
-            </form>
-        </div>
-        <p id="demoo"></p>
+            <input type="text" id="endPoint" value="endpoint">
+        </form>
+    </div>
+    <p id="demoo"></p>
         <table>
             <tr>
                 <th>Id</th>
                 <th>Ratings</th>
                 <th>Product</th>
                 <th>Process</th>
-            <!--    <th>PID</th> -->
+                <th>PID</th>
                 <th>Date</th>
                 <th>EndPoint</th>
             </tr>
@@ -57,47 +56,39 @@
             uri = "thumbs";
             let todos = null;
             $(document).ready(function () {
-               // getData();
-
             });
 
-            function getData() {
-                $.ajax({
-                    type: 'Get',
-                    dataType: 'json',
-                    url: uri,
-                    success: function (data) {
-                       $('#todos').empty();
-                        $.each(data, function (key, item) {
-                            $('<tr>' +
-                                '<td>' + item.id + '</td>' +
-                                '<td>' + item.rating + '</td>' +
-                                '<td>' + item.product + '</td>' +
-                                '<td>' + item.group + '</td>' +
-                               // '<td>' + item.pid + '</td>' +
-                                '<td>' + item.date + '</td>' +
-                                '<td>' + item.endPoint + '</td>' +
-                                '</tr>').appendTo($('#todos'));
-                        });
-                        todos = data;
-                    }
-                });
-            }
-
-
-           // var d = new Date(2018,11,24);
-           // document.getElementById("showdate").innerHTML = d;
+            //function getData() {
+            //    $.ajax({
+            //        type: 'Get',
+            //        dataType: 'json',
+            //        url: uri,
+            //        success: function (data) {
+            //           $('#todos').empty();
+            //            $.each(data, function (key, item) {
+            //                $('<tr>' +
+            //                    '<td>' + item.id + '</td>' +
+            //                    '<td>' + item.rating + '</td>' +
+            //                    '<td>' + item.product + '</td>' +
+            //                    '<td>' + item.group + '</td>' +
+            //                    '<td>' + item.pid + '</td>' +
+            //                    '<td>' + item.date + '</td>' +
+            //                    '<td>' + item.endPoint + '</td>' +
+            //                    '</tr>').appendTo($('#todos'));
+            //            });
+            //            todos = data;
+            //        }
+            //    });
+            //}
 
             var d = new Date();
             document.getElementById("demo").valueAsDate = d;
 
             function addItem() {
                 const itemPost = {
-                    //  'Rating': $('#UpId').val(),
                     'Rating': document.activeElement.getAttribute('value'),
                     'Product': $('#product').val(),
                     'Group': $('#group').val(),
-                  //  'PID': $('#pid').val(),
                     'Date': $('#demo').val(),
                     'EndPoint': $('#endPoint').val()
                 };
@@ -112,12 +103,15 @@
                         alert('fail');
                     },
                     success: function (result) {
-                        getData();
-                            $('#product').val(''),
-                            $('#group').val(''),
-                         //   $('#pid').val(''),
-                            $('#date').val(''),
-                            $('#endpoint').val('');
+                        $('<tr>' +
+                            '<td>' + result.id + '</td>' +
+                            '<td>' + result.rating + '</td>' +
+                            '<td>' + result.product + '</td>' +
+                            '<td>' + result.group + '</td>' +
+                            '<td>' + result.pid + '</td>' +
+                            '<td>' + result.date + '</td>' +
+                            '<td>' + result.endPoint + '</td>' +
+                            '</tr>').appendTo($('#todos'));
                     }
                 });
             }
@@ -125,8 +119,8 @@
             $(function () {
                 $('#theform').submit(function () {
                     $("input[type='submit']", this)
-                        .val("You clicked " + document.activeElement.getAttribute('value'))
-                        .attr('disabled', 'disabled')
+                        //.val("You clicked " + document.activeElement.getAttribute('value'))
+                        //.attr('disabled', 'disabled')
                    // .hide();
                     return true;
                 });
@@ -134,4 +128,4 @@
 
         </script>
     </body>
-    </html>
+</html>
