@@ -10,6 +10,10 @@
     <DocumentationFile>bin\Debug\netcoreapp2.1\ThumbsApi.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Dev\New\ocelot-thumbs\Backend\ThumbsApi\ThumbsApi\ThumbsApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

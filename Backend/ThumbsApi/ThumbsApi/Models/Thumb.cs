@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ThumbsApi.Models
 {
@@ -24,7 +21,7 @@ namespace ThumbsApi.Models
         public bool Rating { get; set; }        
 
         [Required]
-        [MaxLength(10)]
+        [MaxLength(100)]
         public string Product { get; set; }  
 
         [Required]
