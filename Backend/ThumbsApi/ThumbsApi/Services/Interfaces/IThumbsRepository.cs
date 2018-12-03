@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ThumbsApi.Models;
 
 namespace ThumbsApi.Services.Interfaces
 {
-   public interface IThumbsRepository
+    internal interface IThumbsRepository
     {
         /// <summary>
         /// Adds a thumb to memory 

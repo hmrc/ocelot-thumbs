@@ -14,7 +14,7 @@ using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi
 {
-    public class Startup
+    internal class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -30,8 +30,9 @@ namespace ThumbsApi
                     opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection") +
                             Environment.GetEnvironmentVariable("Connection", EnvironmentVariableTarget.Machine)));
 
-            services.AddScoped<IThumbsRepository, ThumbsRepository>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IThumbsRepository, ThumbsRepository>()
+                .AddScoped<IReportRepository, ReportRepository>()
+                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<IISOptions>(options =>
             {

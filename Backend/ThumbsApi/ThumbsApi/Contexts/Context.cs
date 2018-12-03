@@ -1,24 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ThumbsApi.Models;
 
 namespace ThumbsApi.Contexts
 {
-    public class Context:DbContext
+    internal class Context:DbContext
     {
-        private ILogger<Context> _logger;
-
-        public Context(DbContextOptions<Context> options, ILogger<Context> logger)
+        internal Context(DbContextOptions<Context> options)
             : base(options)
         {
-            _logger = logger;
             Database.EnsureCreated();
         }
 
-        public DbSet<Thumb> Thumbs { get; set; }
+        internal DbSet<Thumb> Thumbs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Thumb>()
+                        .Property(p => p.Pid)
+                        .IsFixedLength()
+                        .IsUnicode(false);
+        }
     }
 }

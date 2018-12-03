@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ThumbsApi.Models
 {
-    public class Report
+    internal class Report
     {
         public string Product { get; private set; }
 

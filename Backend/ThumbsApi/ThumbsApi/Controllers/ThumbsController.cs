@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using ThumbsApi.Models;
 using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi.Controllers
 {
+    /// <summary>
+    /// todo write description
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class ThumbsController : ControllerBase
@@ -15,7 +17,7 @@ namespace ThumbsApi.Controllers
         private readonly IThumbsRepository _thumbsRepository;
         private readonly ILogger<ThumbsController> _logger;
 
-        public ThumbsController(IThumbsRepository thumbsRepository, ILogger<ThumbsController> logger)
+        internal ThumbsController(IThumbsRepository thumbsRepository, ILogger<ThumbsController> logger)
         {
             _thumbsRepository = thumbsRepository;
             _logger = logger;
@@ -29,6 +31,11 @@ namespace ThumbsApi.Controllers
         //    return Ok(result);
         //}
 
+        /// <summary>
+        /// todo write description
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name=nameof(GetById))]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -54,6 +61,11 @@ namespace ThumbsApi.Controllers
             }
         }
 
+        /// <summary>
+        /// todo write description
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Thumb item)
         {
@@ -68,18 +80,29 @@ namespace ThumbsApi.Controllers
 
                 _thumbsRepository.Add(item);
 
-                var saveResult = await _thumbsRepository.SaveAsync();
-
-                //todo check saved
-                return CreatedAtRoute(nameof(GetById), new { id = item.Id }, item);
+                if (await _thumbsRepository.SaveAsync())
+                {
+                    return CreatedAtRoute(nameof(GetById), new { id = item.Id }, item);
+                }
+                else
+                {
+                    return StatusCode(500, "Save to database failed");
+                }                
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(500, ex, ex.Message);
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
+
+        /// <summary>
+        /// todo write description
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody]Thumb item)
         {
@@ -116,6 +139,11 @@ namespace ThumbsApi.Controllers
             }
         }
 
+        /// <summary>
+        /// todo write description
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -135,10 +163,14 @@ namespace ThumbsApi.Controllers
 
                 _thumbsRepository.Delete(result);
 
-                //todo check if saved correctly
-                var saveResult = await _thumbsRepository.SaveAsync();
-
-                return NoContent();
+                if (await _thumbsRepository.SaveAsync())
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return StatusCode(500, "Failed to delete");
+                }
             }
             catch (Exception ex)
             {
