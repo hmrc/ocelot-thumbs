@@ -32,7 +32,7 @@ namespace ThumbsApi.Controllers
         //}
 
         /// <summary>
-        /// todo write description
+        /// Returns thumb ,required ID parameter
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace ThumbsApi.Controllers
         }
 
         /// <summary>
-        /// todo write description
+        /// Adds thumb into database, required pid, date, rating, product, group and endpoint parameters
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace ThumbsApi.Controllers
         }
 
         /// <summary>
-        /// todo write description
+        /// Deletes thumb from the database, required id(Guid) parameter to select the record from the database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

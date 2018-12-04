@@ -46,18 +46,18 @@ namespace ThumbsApi
                 {
                     Version = "v1",
                     Title = "Thumbs",
-                    Description = "Thumbs API",
-                    TermsOfService = "None",
+                    Description = "Thumbs API version 1 for testing",
+                    TermsOfService = "to be confirmed",
                     Contact = new Contact
                     {
                         Name = "David Kinghan",
-                        Email = string.Empty,
+                        Email = "to be confirmd",
                         Url = "to be confirmed"
                     },
                     License = new License
                     {
                         Name = "to be confirmed",
-                        Url = "comming soon"
+                        Url = "to be confirmed"
                     }
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
