@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ThumbsApi.Models
 {
-    internal class Report
+    public class Report
     {
         public string Product { get; private set; }
 

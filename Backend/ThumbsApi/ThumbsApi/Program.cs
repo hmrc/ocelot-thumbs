@@ -41,12 +41,12 @@ namespace ThumbsApi
                 .UseStartup<Startup>()
                 .ConfigureLogging(configuration =>
                 {
-                    configuration.ClearProviders();
-                    configuration.SetMinimumLevel(LogLevel.Debug);
+                    configuration.ClearProviders()
+                    .SetMinimumLevel(LogLevel.Debug)
                     //keep console and debug for debugging
-                    configuration.AddConsole(); 
-                    configuration.AddDebug();
-                    configuration.AddNLog();
+                    .AddConsole() 
+                    .AddDebug()
+                    .AddNLog();
                 })
                 .Build();
     }

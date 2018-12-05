@@ -15,11 +15,15 @@ namespace ThumbsApi.Controllers
     public class ThumbsController : ControllerBase
     {
         private readonly IThumbsRepository _thumbsRepository;
+        private readonly IDeletionRepository _deletionRepository;
         private readonly ILogger<ThumbsController> _logger;
 
-        public ThumbsController(IThumbsRepository thumbsRepository, ILogger<ThumbsController> logger)
+        public ThumbsController(ILogger<ThumbsController> logger,
+                                  IThumbsRepository thumbsRepository, 
+                                  IDeletionRepository deletionRepository)
         {
             _thumbsRepository = thumbsRepository;
+            _deletionRepository = deletionRepository;
             _logger = logger;
         }
 
@@ -76,7 +80,7 @@ namespace ThumbsApi.Controllers
                     return Unauthorized();
                 }
 
-                item.Pid = User.Identity.Name.Substring(User.Identity.Name.IndexOf(@"\") + 1); ;
+                item.Pid = GetPid();
 
                 _thumbsRepository.Add(item);
 
@@ -122,7 +126,6 @@ namespace ThumbsApi.Controllers
                 }
 
                 result.Rating = item.Rating;
-                result.Pid = item.Pid;
                 result.Group = item.Group;
 
                 _thumbsRepository.Update(result);
@@ -163,6 +166,11 @@ namespace ThumbsApi.Controllers
                     return NotFound(id);
                 }
 
+                var deletion = (Deletion)result;
+                deletion.DeletedBy = GetPid();
+
+                _deletionRepository.Add(deletion);
+
                 _thumbsRepository.Delete(result);
 
                 if (await _thumbsRepository.SaveAsync())
@@ -180,6 +188,11 @@ namespace ThumbsApi.Controllers
                 _logger.LogCritical(500, ex, ex.Message);
                 return StatusCode(500);
             }
+        }
+
+        private string GetPid()
+        {
+            return User.Identity.Name.Substring(User.Identity.Name.IndexOf(@"\") + 1);
         }
     }
 }

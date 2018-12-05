@@ -17,7 +17,7 @@ namespace ThumbsApi.Controllers
         private ILogger<ReportController> _logger;
         private IReportRepository _reportRepository;
 
-        internal ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
+        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
         {
             _logger = logger;
             _reportRepository = reportRepository;
@@ -59,8 +59,7 @@ namespace ThumbsApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical("500", ex.Message, ex);
-                return StatusCode(500);
-
+                return StatusCode(500, ex.Message);
             }
         }
     }

@@ -8,7 +8,7 @@ using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi.Services
 {
-    internal class ReportRepository : IReportRepository
+    public class ReportRepository : IReportRepository
     {
 
         private readonly Context _thumbContext;

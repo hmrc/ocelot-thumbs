@@ -31,8 +31,9 @@ namespace ThumbsApi
                             Environment.GetEnvironmentVariable("Connection", EnvironmentVariableTarget.Machine)));
 
             services.AddScoped<IThumbsRepository, ThumbsRepository>()
-                .AddScoped<IReportRepository, ReportRepository>()
-                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                    .AddScoped<IReportRepository, ReportRepository>()
+                    .AddScoped<IDeletionRepository, DeletionRepository>()
+                    .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<IISOptions>(options =>
             {
@@ -75,20 +76,18 @@ namespace ThumbsApi
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
-                // c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
-                //c.RoutePrefix = string.Empty;
-            });
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc();
+            app.UseSwagger()
+                // Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.), 
+                // specifying the Swagger JSON endpoint.
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
+                    // c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+                    //c.RoutePrefix = string.Empty;
+                })
+               .UseDefaultFiles()
+               .UseStaticFiles()
+               .UseMvc();
         }
     }
 }

@@ -10,51 +10,51 @@ using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi.Services
 {
-    public class ThumbsRepository : IThumbsRepository
+    public class DeletionRepository : IDeletionRepository
     {
         private readonly Context _context;
 
-        public ThumbsRepository(Context thumbContext)
+        public DeletionRepository(Context thumbContext)
         {
             _context = thumbContext;
         }
 
-        public void Add(Thumb items)
+        public void Add(Deletion items)
         {
             _context.Thumbs
                          .Add(items);
         }
 
-        public void Delete(Thumb thumb)
+        public void Delete(Deletion deletion)
         {
-            _context.Thumbs
-                         .Remove(thumb);
+            _context.Deletions
+                         .Remove(deletion);
         }
 
-        public Task<Thumb> GetAsync(Expression<Func<Thumb, bool>> where)
+        public Task<Deletion> GetAsync(Expression<Func<Deletion, bool>> where)
         {
-            return _context.Thumbs
+            return _context.Deletions
                                 .Where(where)
                                 .FirstOrDefaultAsync();
         }
 
-        public Task<List<Thumb>> GetManyAsync()
+        public Task<List<Deletion>> GetManyAsync()
         {
-            return _context.Thumbs
+            return _context.Deletions
                               .ToListAsync();
 
         }
 
-        public Task<List<Thumb>> GetManyAsync(Expression<Func<Thumb, bool>> where)
+        public Task<List<Deletion>> GetManyAsync(Expression<Func<Deletion, bool>> where)
         {
-            return _context.Thumbs
+            return _context.Deletions
                                 .Where(where)
                                 .ToListAsync();
         }
 
-        public Task<List<Thumb>> GetManyAsync<T>(Expression<Func<Thumb, bool>> where, Expression<Func<Thumb, T>> orderBy, int take)
+        public Task<List<Deletion>> GetManyAsync<T>(Expression<Func<Deletion, bool>> where, Expression<Func<Deletion, T>> orderBy, int take)
         {
-            return _context.Thumbs
+            return _context.Deletions
                                 .Where(where)
                                 .OrderBy(orderBy)
                                 .Take(take)
@@ -66,7 +66,7 @@ namespace ThumbsApi.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void Update(Thumb thumb)
+        public void Update(Deletion deletion)
         {
             //not needed in this implementation
         }

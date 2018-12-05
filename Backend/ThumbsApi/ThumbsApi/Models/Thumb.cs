@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ThumbsApi.Models
 {
-
     /// <summary>
     /// Thumb
     /// </summary>
@@ -20,22 +19,22 @@ namespace ThumbsApi.Models
         /// <summary>
         /// Pid of staff who submitted thumb
         /// </summary>
+        [Required]
         [MinLength(7)]
         [MaxLength(7)]
-        public string Pid { get; set; }
+        public string Pid { get; internal set; }
 
         /// <summary>
         /// Date thumb was submitted
         /// </summary>
         [Required]
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; private set; } = DateTime.Now;
 
         /// <summary>
         /// The thumb rating (up = true, down = false)
         /// </summary>
         [Required]
         public bool Rating { get; set; }
-
 
         /// <summary>
         /// The product thumbed
