@@ -166,10 +166,10 @@ namespace ThumbsApi.Controllers
                     return NotFound(id);
                 }
 
-                var deletion = (Deletion)result;
-                deletion.DeletedBy = GetPid();
-
-                _deletionRepository.Add(deletion);
+                _deletionRepository.Add(new Deletion(result)
+                {
+                    DeletedBy = GetPid()
+                });
 
                 _thumbsRepository.Delete(result);
 

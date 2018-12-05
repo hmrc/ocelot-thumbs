@@ -13,7 +13,7 @@ namespace ThumbsApi.Contexts
 
         public DbSet<Thumb> Thumbs { get; set; }
 
-        internal DbSet<Deletion> Deletions { get; set; }
+        public DbSet<Deletion> Deletions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

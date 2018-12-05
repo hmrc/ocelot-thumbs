@@ -19,6 +19,45 @@ namespace ThumbsApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ThumbsApi.Models.Deletion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .IsFixedLength(true)
+                        .HasMaxLength(7)
+                        .IsUnicode(false);
+
+                    b.Property<DateTime>("DeletedTime");
+
+                    b.Property<string>("EndPoint")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Group")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Pid")
+                        .IsFixedLength(true)
+                        .HasMaxLength(7)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Product")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Rating");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Deletions");
+                });
+
             modelBuilder.Entity("ThumbsApi.Models.Thumb", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,7 +74,9 @@ namespace ThumbsApi.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Pid")
-                        .HasMaxLength(7);
+                        .IsFixedLength(true)
+                        .HasMaxLength(7)
+                        .IsUnicode(false);
 
                     b.Property<string>("Product")
                         .IsRequired()

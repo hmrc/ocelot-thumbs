@@ -14,14 +14,14 @@ namespace ThumbsApi.Services
     {
         private readonly Context _context;
 
-        public DeletionRepository(Context thumbContext)
+        public DeletionRepository(Context context)
         {
-            _context = thumbContext;
+            _context = context;
         }
 
         public void Add(Deletion items)
         {
-            _context.Thumbs
+            _context.Deletions
                          .Add(items);
         }
 
