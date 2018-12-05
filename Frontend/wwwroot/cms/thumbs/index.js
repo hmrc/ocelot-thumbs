@@ -52,37 +52,8 @@ function loadThumbsData(path) {
     })
 }
 
-/*
-
-    ccg/tax90001
-    csg/tag90001
-
-    handleRoute(url)
-
-        parts = url.path.split("/")
-
-        parts = ["HMRC", "CCG", ]
-
-        
-        SELECT 
-        (SELECT count(*) WHERE rating = true) as up,
-        (select count(*) WHERE rating = false) as down FROM SELECT rating FROM thumbs 
-           WHERE organisation = ? AND group = ? AND lob = ? AND process = ? 
-
-        SELECT * FROM thumbs WHERE organisation = ? AND group = ? AND lob = ? <- per process 
-
-        SELECT * FROM thumbs WHERE organisation = ? AND group = ? <- per lob 
-
-        SELECT * FROM thumbs WHERE organisation = ? <- per group 
-
-
-
-
-*/
 function buildThumbDisplay(thumb) {
-    var display = buildElement("div", "d-flex ")
-
-
+    var display = buildElement("div", "d-flex ") 
     var parentDisplay = buildDialCard(thumb);
     var childrenDisplay = buildFragment();
     var children = thumb.children;
