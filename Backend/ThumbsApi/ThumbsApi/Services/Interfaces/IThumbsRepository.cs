@@ -6,7 +6,7 @@ using ThumbsApi.Models;
 
 namespace ThumbsApi.Services.Interfaces
 {
-    internal interface IThumbsRepository
+    public interface IThumbsRepository
     {
         /// <summary>
         /// Adds a thumb to memory 

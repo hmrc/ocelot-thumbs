@@ -17,7 +17,7 @@ namespace ThumbsApi.Controllers
         private readonly IThumbsRepository _thumbsRepository;
         private readonly ILogger<ThumbsController> _logger;
 
-        internal ThumbsController(IThumbsRepository thumbsRepository, ILogger<ThumbsController> logger)
+        public ThumbsController(IThumbsRepository thumbsRepository, ILogger<ThumbsController> logger)
         {
             _thumbsRepository = thumbsRepository;
             _logger = logger;
@@ -83,6 +83,7 @@ namespace ThumbsApi.Controllers
                 if (await _thumbsRepository.SaveAsync())
                 {
                     return CreatedAtRoute(nameof(GetById), new { id = item.Id }, item);
+
                 }
                 else
                 {
@@ -129,6 +130,7 @@ namespace ThumbsApi.Controllers
                 if (await _thumbsRepository.SaveAsync())
                 {
                     return NoContent();
+                   // return CreatedAtRoute(nameof(GetById), new { id = item.Id }, item);
                 }
                 return StatusCode(500);
             }

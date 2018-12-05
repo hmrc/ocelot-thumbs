@@ -4,15 +4,15 @@ using ThumbsApi.Models;
 
 namespace ThumbsApi.Contexts
 {
-    internal class Context:DbContext
+    public class Context:DbContext
     {
-        internal Context(DbContextOptions<Context> options)
+        public Context(DbContextOptions<Context> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
 
-        internal DbSet<Thumb> Thumbs { get; set; }
+        public DbSet<Thumb> Thumbs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

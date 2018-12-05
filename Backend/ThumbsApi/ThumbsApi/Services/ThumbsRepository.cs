@@ -10,7 +10,7 @@ using ThumbsApi.Services.Interfaces;
 
 namespace ThumbsApi.Services
 {
-    internal class ThumbsRepository : IThumbsRepository
+    public class ThumbsRepository : IThumbsRepository
     {
         private readonly Context _thumbContext;
 

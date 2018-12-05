@@ -15,7 +15,7 @@ namespace ThumbsApi.Models
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get;}
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Pid of staff who submitted thumb
