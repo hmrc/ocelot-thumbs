@@ -8,7 +8,7 @@ using ThumbsApi.Services.Interfaces;
 namespace ThumbsApi.Controllers
 {
     /// <summary>
-    /// todo write description
+    /// main controller class for thumbs to add,delete,update and search purposes 
     /// </summary>
     [Route("[controller]")]
     [ApiController]
@@ -66,7 +66,7 @@ namespace ThumbsApi.Controllers
         }
 
         /// <summary>
-        /// Adds thumb into database, required pid, date, rating, product, group and endpoint parameters
+        /// to add thumb into database, required pid, date, rating, product, group and endpoint parameters
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -103,7 +103,7 @@ namespace ThumbsApi.Controllers
 
 
         /// <summary>
-        /// todo write description
+        /// to update thumb entry, required id to fetch the reocrd form the database
         /// </summary>
         /// <param name="id"></param>
         /// <param name="item"></param>
@@ -145,7 +145,8 @@ namespace ThumbsApi.Controllers
         }
 
         /// <summary>
-        /// Deletes thumb from the database, required id(Guid) parameter to select the record from the database
+        /// to delete thumb from the database, required id(Guid) parameter to select the record from the database
+        /// and also add user's PID in deletion table for audit purposes
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
