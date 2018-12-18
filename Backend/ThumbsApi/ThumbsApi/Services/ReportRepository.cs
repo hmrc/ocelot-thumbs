@@ -24,12 +24,24 @@ namespace ThumbsApi.Services
             var thumbs = await _thumbContext.Thumbs.Where(t =>
                                                           t.Date >= startDate &&
                                                           t.Date <= endDate &&
-                                                          GetProductNames(product).Contains(t.Product))
+                                                          GetProductNames(product).Contains(t.Product.ToUpper()))
                                                    .ToListAsync();
 
             return Mapper(product, thumbs);
 
-        }        
+        }
+
+        public async Task<Report> GetAsync(DateTime startDate, DateTime endDate, string product)
+        {
+            var thumbs = await _thumbContext.Thumbs.Where(t =>
+                                                          t.Date >= startDate &&
+                                                          t.Date <= endDate &&
+                                                          t.Product.ToUpper() == product.ToUpper())
+                                                   .ToListAsync();
+
+            return Mapper(product, thumbs);
+
+        }
 
         private IEnumerable<string> GetProductNames(ProductGroup product)
         {
@@ -40,12 +52,7 @@ namespace ThumbsApi.Services
 
         private Report Mapper(ProductGroup product, IEnumerable<Thumb> thumbs)
         {
-            var report = new Report
-            (
-                product.ProductReference,
-                thumbs.Where(t => t.Product == product.ProductReference).Count(t => t.Rating),
-                thumbs.Where(t => t.Product == product.ProductReference).Count(t => !t.Rating)
-            );
+            var report = Mapper(product.ProductReference, thumbs);
 
             if (product.Children?.Any() == true)
             {
@@ -53,6 +60,18 @@ namespace ThumbsApi.Services
             }
 
             return report;
+        }
+
+        private Report Mapper(string product, IEnumerable<Thumb> thumbs)
+        {
+            product = product.ToUpper();
+
+            return new Report
+            (
+                product,
+                thumbs.Where(t => t.Product.ToUpper() == product).Count(t => t.Rating),
+                thumbs.Where(t => t.Product.ToUpper() == product).Count(t => !t.Rating)
+            );
         }
     }
 }

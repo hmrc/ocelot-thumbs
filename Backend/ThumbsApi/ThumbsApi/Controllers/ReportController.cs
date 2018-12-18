@@ -33,7 +33,7 @@ namespace ThumbsApi.Controllers
         /// <param name="endDate"></param>
         /// <returns></returns>
         [HttpGet("{product}")]
-        public async Task<IActionResult> Get(string product, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        public async Task<IActionResult> Get(string product, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
             try
             {
@@ -44,9 +44,15 @@ namespace ThumbsApi.Controllers
 
                 var grouping = await _groupingRepository.GetAsync(product);
 
-                var report = await _reportRepository.GetAsync(startDate, endDate, grouping);
+                startDate = startDate ?? DateTime.Today;
+                endDate = endDate ?? DateTime.Today;
 
-                return Ok(report);
+                if (grouping == null)
+                {
+                    return Ok(await _reportRepository.GetAsync(startDate.Value, endDate.Value, product));
+                }
+            
+                return Ok(await _reportRepository.GetAsync(startDate.Value, endDate.Value, grouping));
             }
             catch (Exception ex)
             {

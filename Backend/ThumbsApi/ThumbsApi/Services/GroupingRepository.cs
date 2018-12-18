@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ThumbsApi.Models;
 using ThumbsApi.Services.Interfaces;
@@ -12,7 +13,7 @@ namespace ThumbsApi.Services
 {
     public class GroupingRepository : IGroupingRepository
     {
-        
+
         private Uri uri;
 
         private static IEnumerable<ProductGroup> groups = new List<ProductGroup>();
@@ -25,11 +26,11 @@ namespace ThumbsApi.Services
             this.logger = logger;
 
             //todo pull from environment
-#if DEBUG
-            uri = new Uri("https://localhost:44310/ProductGroupsdata");
-#else     
+//#if DEBUG
+//            uri = new Uri("https://localhost:44310/ProductGroupsdata");
+//#else     
             uri = new Uri("https://apps.guidance.prod.dop.corp.hmrc.gov.uk/ProductGrouping/ProductGroupsData");
-#endif
+//#endif
         }
 
         public async Task<ProductGroup> GetAsync(string groupName)
@@ -39,38 +40,42 @@ namespace ThumbsApi.Services
                 await UpdateGroups();
             }
 
-            return groups.Where(g => g.ProductReference.ToUpper() == groupName.ToUpper()).FirstOrDefault();
+            return groups?.Where(g => g.ProductReference.ToUpper() == groupName.ToUpper()).FirstOrDefault();
         }
 
         private async Task UpdateGroups()
         {
-            await GetGroups();
-            lastUpdated = DateTime.Now;
-        }
-
-        private async Task GetGroups()
-        {
             try
             {
                 isUpdating = true;
-
-                using (var client = new WebClient()
-                {
-                    UseDefaultCredentials = true
-                })
-                {
-                    var json = await client.DownloadStringTaskAsync(uri);
-                    var result = JsonConvert.DeserializeObject<ICollection<ProductGroup>>(json);
-                    groups = result.Expand(g => g.Children);
-                }
+                await GetGroups();
+                lastUpdated = DateTime.Now;
             }
             catch (Exception ex)
             {
-                logger.LogCritical("500", ex.Message, ex);
+                logger.LogCritical("504", ex.Message, ex);
             }
             finally
             {
                 isUpdating = false;
+            }
+        }
+
+        private async Task GetGroups()
+        {
+            using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true })
+            {
+                Timeout = new TimeSpan(0,0,5),
+            })
+            {
+                var report = new HttpRequestMessage(HttpMethod.Get, uri);
+                var reportResult = await client.SendAsync(report);
+                reportResult.EnsureSuccessStatusCode();
+                var result = JsonConvert.DeserializeObject<ICollection<ProductGroup>>
+                (
+                    await reportResult.Content.ReadAsStringAsync()
+                );
+                groups = result.Expand(g => g.Children);
             }
         }
     }
