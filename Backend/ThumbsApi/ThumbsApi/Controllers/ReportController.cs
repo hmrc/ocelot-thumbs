@@ -16,18 +16,14 @@ namespace ThumbsApi.Controllers
     {
         private ILogger<ReportController> _logger;
         private IReportRepository _reportRepository;
+        private IGroupingRepository _groupingRepository;
 
-        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
+        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository, IGroupingRepository groupingRepository)
         {
             _logger = logger;
             _reportRepository = reportRepository;
+            _groupingRepository = groupingRepository;
         }
-
-        //[HttpGet()]
-        //public IActionResult Get()
-        //{
-        //    return Ok($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-        //}
 
         /// <summary>
         /// Returns a high level report for the product between the dates provided
@@ -46,13 +42,9 @@ namespace ThumbsApi.Controllers
                     return Unauthorized();
                 }
 
-                var report = await _reportRepository.GetAsync(startDate, endDate, product);
+                var grouping = await _groupingRepository.GetAsync(product);
 
-                //todo get grouping from api and loop through all children;
-                //foreach (child in grouping.Children)
-                //{
-                //    report.Children.Add(_reportRepository.GetAsync(startDate, endDate, child.Product);)
-                //}
+                var report = await _reportRepository.GetAsync(startDate, endDate, grouping);
 
                 return Ok(report);
             }

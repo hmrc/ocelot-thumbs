@@ -33,6 +33,7 @@ namespace ThumbsApi
             services.AddScoped<IThumbsRepository, ThumbsRepository>()
                     .AddScoped<IReportRepository, ReportRepository>()
                     .AddScoped<IDeletionRepository, DeletionRepository>()
+                    .AddScoped<IGroupingRepository, GroupingRepository>()
                     .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<IISOptions>(options =>
