@@ -47,7 +47,7 @@ namespace ThumbsApi.Services
                 thumbs.Where(t => t.Product == product.ProductReference).Count(t => !t.Rating)
             );
 
-            if (product.Children.Any())
+            if (product.Children?.Any() == true)
             {
                 Parallel.ForEach(product.Children, c => report.Children.Add(Mapper(c, thumbs))); 
             }

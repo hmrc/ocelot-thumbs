@@ -46,6 +46,10 @@ namespace ThumbsApi.Models
         {
             get
             {
+                if (Count == 0)
+                {
+                    return 100;
+                }
                 return Up / Count;
             }
         }
