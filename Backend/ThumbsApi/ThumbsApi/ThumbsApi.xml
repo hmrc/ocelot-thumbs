@@ -9,7 +9,7 @@
             Controller for dashboard report
             </summary>
         </member>
-        <member name="M:ThumbsApi.Controllers.ReportController.Get(System.String,System.DateTime,System.DateTime)">
+        <member name="M:ThumbsApi.Controllers.ReportController.Get(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Returns a high level report for the product between the dates provided
             </summary>

@@ -29,7 +29,7 @@ namespace ThumbsApi.Services
 //#if DEBUG
 //            uri = new Uri("https://localhost:44310/ProductGroupsdata");
 //#else     
-            uri = new Uri("https://apps.guidance.prod.dop.corp.hmrc.gov.uk/ProductGrouping/ProductGroupsData");
+            uri = new Uri("https://internal-apps.guidance.prod.dop.corp.hmrc.gov.uk/ProductGrouping/ProductGroupsData");
 //#endif
         }
 
@@ -63,7 +63,11 @@ namespace ThumbsApi.Services
 
         private async Task GetGroups()
         {
-            using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true })
+            using (var client = new HttpClient(new HttpClientHandler()
+            {
+                PreAuthenticate = true,
+                UseDefaultCredentials = true
+            })
             {
                 Timeout = new TimeSpan(0,0,5),
             })
